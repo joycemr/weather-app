@@ -1,13 +1,26 @@
 const getNotes = require('./notes')
 const yargs = require('yargs')
+const { string } = require('yargs')
 
 yargs.version('1.1.0')
 
 yargs.command({
     command: 'add',
     describe: 'Add a new note',
-    handler: () => {
-        console.log('Adding a new note')
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: string,
+        },
+        body: {
+            describe: 'Note body',
+            demandOption: true,
+            type: string,
+        },
+    },
+    handler: (argv) => {
+        console.log(`Adding a new note: Title: ${argv.title}, Body: ${argv.body}`)
     }
 })
 
@@ -37,9 +50,4 @@ yargs.command({
 
 // need this line for it all to work.
 // not a big fan of yargs at this point
-yargs.argv
-
-// this line also makes it work.
-// you have to access the .argv object
-// but it has to be after the above code
-// console.log(yargs.argv)
+yargs.parse()
