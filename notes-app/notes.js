@@ -13,6 +13,7 @@ const addNote = (title, body) => {
         return note.title === title
     })
     if (duplicateNotes.length === 0) {
+        console.log(`Note: ${title} added`);
         notes.push({
             title: title,
             body: body,
@@ -21,6 +22,22 @@ const addNote = (title, body) => {
         console.log(`Note title: ${title} is already taken`);
     }
     saveNotes(notes)
+}
+
+const removeNote = (title) => {
+    const notes = loadNotes()
+    const outNotes = []
+    for (note of notes) {
+        if (note.title != title) {
+            outNotes.push(note)
+        }
+    }
+    if (notes.length === outNotes.length) {
+        console.log(`Note: ${title} not found`);
+    } else {
+        console.log(`Note: ${title} removed`);
+        saveNotes(outNotes)
+    }
 }
 
 const saveNotes = (notes) => {
@@ -41,4 +58,5 @@ const loadNotes = () => {
 module.exports = {
     getNotes: getNotes,
     addNote: addNote,
+    removeNote: removeNote,
 }
