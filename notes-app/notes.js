@@ -26,12 +26,9 @@ const addNote = (title, body) => {
 
 const removeNote = (title) => {
     const notes = loadNotes()
-    const outNotes = []
-    for (note of notes) {
-        if (note.title != title) {
-            outNotes.push(note)
-        }
-    }
+    const outNotes = notes.filter(note => {
+        return note.title != title
+    })
     if (notes.length === outNotes.length) {
         console.log(`Note: ${title} not found`);
     } else {
