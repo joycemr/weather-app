@@ -51,24 +51,21 @@ const loadNotes = () => {
 
 const listNotes = () => {
     const notes = loadNotes()
+    const divSpace = new Array(5).join(' ')
     const maxWidth = getMaxWidth(notes)
-    const header = formatOutput('Title', 'Note', maxWidth)
-    console.log(chalk.bold(header));
+    console.log(chalk.bold(addTrailingSpaces('Title', maxWidth) + divSpace + 'Body'));
     for (note of notes) {
-        console.log(formatOutput(note.title, note.body, maxWidth))
+        console.log(addTrailingSpaces(note.title, maxWidth) + divSpace + note.body)
     }
 }
 
-const formatOutput = (title, body, maxWidth) => {
-    if (title.length < maxWidth) {
-        return `${title + new Array(maxWidth - title.length + 1).join(' ')}  ${body}`
-    } else {
-        return `${title}  ${body}`
-    }
+const addTrailingSpaces = (str, stringWidth) => {
+    let output = str + new Array(stringWidth).join(' ')
+    return output.substring(0, stringWidth)
 }
 
 const getMaxWidth = (notes) => {
-    let maxWidth = 0
+    let maxWidth = 5
     for (note of notes) {
         if (note.title.length > maxWidth) {
             maxWidth = note.title.length
