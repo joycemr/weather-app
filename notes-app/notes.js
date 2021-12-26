@@ -4,6 +4,8 @@ const fs = require('fs')
 
 const noteFile = './notes.json'
 
+const divSpace = new Array(5).join(' ')
+
 const getNotes = () => {
     return 'TODO complete this function'
 }
@@ -12,14 +14,14 @@ const addNote = (title, body) => {
     const notes = loadNotes()
     const duplicateNote = notes.find(note => note.title === title)
     if (duplicateNote) {
-        console.log(chalk.red(`Note title: '${title}' is already taken`));
+        console.log(chalk.red(`Note title: '${title}' is already taken`))
     } else {
         notes.push({
             title: title,
             body: body,
         })
         saveNotes(notes)
-        console.log(chalk.green(`Note: ${title} added`));
+        console.log(chalk.green(`Note: ${title} added`))
     }
 }
 
@@ -27,16 +29,35 @@ const removeNote = (title) => {
     const notes = loadNotes()
     const outNotes = notes.filter(note => note.title !== title)
     if (notes.length === outNotes.length) {
-        console.log(chalk.red(`Note: '${title}' not found`));
+        console.log(chalk.red(`Note: '${title}' not found`))
     } else {
         saveNotes(outNotes)
-        console.log(chalk.green(`Note: ${title} removed`));
+        console.log(chalk.green(`Note: ${title} removed`))
     }
 }
 
 const saveNotes = (notes) => {
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync(noteFile, dataJSON)
+}
+
+const readNote = (title) => {
+    note = loadNotes().find(note => note.title === title)
+    if (note) {
+        logTitleLine(title.length)
+        console.log(addTrailingSpaces(note.title, title.length) + divSpace + note.body)
+    } else {
+        console.log(chalk.red(`Cannot find note: ${title}`))
+    }
+}
+
+const listNotes = () => {
+    const notes = loadNotes()
+    const maxWidth = getMaxWidth(notes)
+    logTitleLine(maxWidth)
+    for (note of notes) {
+        console.log(addTrailingSpaces(note.title, maxWidth) + divSpace + note.body)
+    }
 }
 
 const loadNotes = () => {
@@ -49,14 +70,8 @@ const loadNotes = () => {
     }
 }
 
-const listNotes = () => {
-    const notes = loadNotes()
-    const divSpace = new Array(5).join(' ')
-    const maxWidth = getMaxWidth(notes)
-    console.log(chalk.bold(addTrailingSpaces('Title', maxWidth) + divSpace + 'Body'));
-    for (note of notes) {
-        console.log(addTrailingSpaces(note.title, maxWidth) + divSpace + note.body)
-    }
+const logTitleLine = (width) => {
+    console.log(chalk.bold(addTrailingSpaces('Title', width) + divSpace + 'Body'))
 }
 
 const addTrailingSpaces = (str, stringWidth) => {
@@ -78,6 +93,7 @@ const getMaxWidth = (notes) => {
 module.exports = {
     getNotes: getNotes,
     addNote: addNote,
+    readNote: readNote,
     removeNote: removeNote,
     listNotes: listNotes,
 }
