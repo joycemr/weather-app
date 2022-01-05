@@ -1,8 +1,13 @@
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
+const search_location = process.argv.slice(2)[0]
 
-geocode('Ofallon IL', (error, location) => {
+if (search_location === undefined) {
+    return console.log('Please enter a search location')
+}
+
+geocode(search_location, (error, location) => {
     if (error) {
         return console.log(error)
     }
