@@ -8,15 +8,15 @@ if (search_location === undefined) {
 }
 
 geocode(search_location, (error, location) => {
-    const {lon, lat, place_name} = location
     if (error) {
         return console.log(error)
     }
-    forecast(lon, lat, (error, forecast) => {
-        const {temperature, feelslike, weather_descriptions} = forecast
+    forecast(location, (error, forecast) => {
+        const {lon, lat, place_name} = location
         if (error) {
             return console.log(error)
         }
+        const {temperature, feelslike, weather_descriptions} = forecast
         console.log(`${place_name} is located at ${lat} lat / ${lon} lon.`)
         console.log(`Temperature: ${temperature}, Feels like: ${feelslike}, Conditions: ${weather_descriptions}`)
     })

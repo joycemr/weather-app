@@ -8,7 +8,7 @@ const geocode = (address, callback) => {
         const features = response.body.features
         if (error) {
             callback(error.body, undefined)
-        } else if (features === undefined) {
+        } else if (features === undefined || features.length === 0) {
             callback(response.body, undefined)
         } else {
             const { place_name, center } = features[0]
