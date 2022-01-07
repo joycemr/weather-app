@@ -7,16 +7,16 @@ if (search_location === undefined) {
     return console.log('Please enter a search location')
 }
 
-geocode(search_location, (error, location) => {
+geocode(search_location, (error, {lon, lat, name}) => {
     if (error) {
         return console.log(error)
     }
-    forecast(location.lon, location.lat, (error, forecast) => {
+    forecast(lon, lat, (error, {temperature, feelslike, description}) => {
         if (error) {
             return console.log(error)
         }
-        console.log(`${location.name} is located at ${location.lat} lat / ${location.lon} lon.`)
-        console.log(`Temperature: ${forecast.temperature}, Feels like: ${forecast.feelslike}, Conditions: ${forecast.description}`)
+        console.log(`${name} is located at ${lat} lat / ${lon} lon.`)
+        console.log(`Temperature: ${temperature}, Feels like: ${feelslike}, Conditions: ${description}`)
     })
 })
 
