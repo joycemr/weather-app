@@ -11,11 +11,12 @@ const geocode = (address, callback) => {
         } else if (features === undefined) {
             callback(response.body, undefined)
         } else {
-            feature = features[0]
+            const { place_name, center } = features[0]
+            const [lon, lat] = center
             callback(undefined, {
-                lon: feature.center[0],
-                lat: feature.center[1],
-                name: feature.place_name,
+                lon,
+                lat,
+                place_name,
             })
         }
     })
