@@ -11,7 +11,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/notes-app/app.js add --title='title 1' --body='body 1'"
+            // "program": "${workspaceFolder}/notes-app/app.js add --title='title 1' --body='body 1'"
+            "program": "${workspaceFolder}/weather-app/app.js 'jfdksjlfdsaljfsjf'"
         }
     ]
 }
