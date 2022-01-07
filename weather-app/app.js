@@ -7,11 +7,11 @@ if (search_location === undefined) {
     return console.log('Please enter a search location')
 }
 
-geocode(search_location, (error, location) => {
+geocode(search_location, (error, location = {}) => {
     if (error) {
         return console.log(error)
     }
-    forecast(location, (error, forecast) => {
+    forecast(location, (error, forecast = {}) => {
         const {lon, lat, place_name} = location
         if (error) {
             return console.log(error)
