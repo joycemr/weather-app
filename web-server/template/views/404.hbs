@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>{{title}}</h1>
-    <p>{{topic}}</p>
+    {{>header}}
+    <p>
+        <h2> {{errorMessage}} </h2>
+    </p>
+    {{>footer}}
 </body>
 </html>
