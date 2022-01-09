@@ -1,6 +1,8 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
+const forecast = require('./utils/forecast')
+const geocode = require('./utils/geocode')
 
 
 const app = express()
@@ -42,13 +44,36 @@ app.get('/help', (req, res) => {
 })
 
 app.get('/weather', (req, res) => {
-    res.send({
-        title: 'Local Weather',
-        creatorName,
-        location: 'O Fallon, IL',
-        temperature: 19,
-        conditions: ['cloudy',
-                'windy',],
+    if (!req.query.address) {
+        return res.send({
+            error: 'query must include the address parameter'
+        })
+    }
+    const address = req.query.address
+    geocode(address, (error, location = {}) => {
+        if (error) {
+            return res.send({
+                error: 'error locating address'
+            })
+        }
+        forecast(location, (error, forecast = {}) => {
+            const {lon, lat, place_name} = location
+            if (error) {
+                return res.send({
+                    error: 'error with forecast'
+                })
+            }
+            const {temperature, feelslike, weather_descriptions} = forecast
+            res.send({
+                title: `Local weather for ${address}`,
+                creatorName,
+                address,
+                place_name,
+                temperature,
+                feelslike,
+                conditions: weather_descriptions,
+            })
+        })
     })
 })
 
