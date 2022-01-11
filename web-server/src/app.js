@@ -23,21 +23,21 @@ const creatorName = 'Michael Joyce'
 // paths
 app.get('/', (req, res) => {
     res.render('index', {
-        title: 'Index Handlebars Page (Dynamic)',
+        title: 'Get Local Weather',
         creatorName,
     })
 })
 
 app.get('/about', (req, res) => {
     res.render('about', {
-        title: 'About Dynamic Page',
+        title: 'About Us',
         creatorName,
     })
 })
 
 app.get('/help', (req, res) => {
     res.render('help', {
-        title: 'Help Dynamic Page',
+        title: 'Help Topics',
         creatorName,
         topic: 'This is the help topic',
     })
