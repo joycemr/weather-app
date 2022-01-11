@@ -56,22 +56,19 @@ app.get('/weather', (req, res) => {
                 error: 'error locating address'
             })
         }
-        forecast(location, (error, forecast = {}) => {
+        forecast(location, (error, response = {}) => {
             const {lon, lat, place_name} = location
             if (error) {
                 return res.send({
                     error: 'error with forecast'
                 })
             }
-            const {temperature, feelslike, weather_descriptions} = forecast
             res.send({
                 title: `Local weather for ${address}`,
                 creatorName,
                 address,
-                place_name,
-                temperature,
-                feelslike,
-                conditions: weather_descriptions,
+                location: response.location,
+                current: response.current
             })
         })
     })

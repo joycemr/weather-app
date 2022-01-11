@@ -14,7 +14,8 @@ const forecast = (location, callback) => {
         } else if (body.current === undefined) {
             callback('No forecast returned for this location', undefined)
         } else {
-            callback(undefined, body.current)
+            console.log(body);
+            callback(undefined, body)
         }
     })
 }
