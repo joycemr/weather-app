@@ -11,11 +11,12 @@ weatherForm.addEventListener('submit', (e) => {
     const address = addressInput.value
     const url = encodeURI(`http://127.0.0.1:3000/weather?address=${address}`)
     locationOutput.textContent = `Fetching the weather for ${address}`
-    console.log(`url: ${url}`)
+    weatherOutput.textContent = ''
+
     fetch(url).then((response) => {
         response.json().then((data) => {
             if (data.error) {
-                locationOutput.textContent = error
+                locationOutput.textContent = data.error
                 console.log(data.error)
             } else {
                 console.log(data);
