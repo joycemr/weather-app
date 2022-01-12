@@ -6,10 +6,21 @@ const weatherOutput = document.querySelector('#weatherOutput')
 locationOutput.textContent = undefined
 weatherOutput.textContent = undefined
 
+const formatter = (forecast) => {
+    return `Current Conditions:
+    Time: ${forecast.current.observation_time} zulu, 
+    Temp: ${forecast.current.temperature} degrees F, 
+    Feels Like: ${forecast.current.feelslike} degrees F, 
+    Wind: ${forecast.current.wind_speed} MPH ${forecast.current.wind_dir}, 
+    Humidity: ${forecast.current.humidity}
+    `
+}
+
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault()
     const address = addressInput.value
     const url = encodeURI(`http://127.0.0.1:3000/weather?address=${address}`)
+
     locationOutput.textContent = `Fetching the weather for ${address}`
     weatherOutput.textContent = ''
 
@@ -21,13 +32,7 @@ weatherForm.addEventListener('submit', (e) => {
             } else {
                 console.log(data);
                 locationOutput.textContent = `Forecast for ${data.location.name}, ${data.location.region}`
-                weatherOutput.textContent = `Current Conditions:
-                Time: ${data.current.observation_time}\n
-                Temp: ${data.current.temperature} degrees F\n
-                Feels Like: ${data.current.feelslike} degrees F\n
-                Wind: ${data.current.wind_speed} MPH ${data.current.wind_dir}\n
-                Humidity: ${data.current.humidity}
-                `
+                weatherOutput.textContent = formatter(data)
             }
         })
     })
