@@ -19,7 +19,7 @@ const formatter = (forecast) => {
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault()
     const address = addressInput.value
-    const url = encodeURI(`http://127.0.0.1:3000/weather?address=${address}`)
+    const url = encodeURI(`/weather?address=${address}`)
 
     locationOutput.textContent = `Fetching the weather for ${address}`
     weatherOutput.textContent = ''
