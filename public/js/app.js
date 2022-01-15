@@ -1,19 +1,34 @@
 const weatherForm = document.querySelector('#addressForm')
 const addressInput = document.querySelector('#addressInput')
 const locationOutput = document.querySelector('#locationOutput')
-const weatherOutput = document.querySelector('#weatherOutput')
+const timeOutput = document.querySelector('#timeOutput')
+const feelsLikeOutput = document.querySelector('#feelsLikeOutput')
+const conditionsOutput = document.querySelector('#conditionsOutput')
+const tempOutput = document.querySelector('#tempOutput')
+const windOutput = document.querySelector('#windOutput')
+const humidityOutput = document.querySelector('#humidityOutput')
 
 locationOutput.textContent = undefined
-weatherOutput.textContent = undefined
+timeOutput.textContent = undefined
+tempOutput.textContent = undefined
+feelsLikeOutput.textContent = undefined
+conditionsOutput.textContent = undefined
+windOutput.textContent = undefined
+humidityOutput.textContent = undefined
 
-const formatter = (forecast) => {
-    return `Current Conditions:
-    Time: ${forecast.current.observation_time} zulu, 
-    Temp: ${forecast.current.temperature} degrees F, 
-    Feels Like: ${forecast.current.feelslike} degrees F, 
-    Wind: ${forecast.current.wind_speed} MPH ${forecast.current.wind_dir}, 
-    Humidity: ${forecast.current.humidity}
-    `
+const convertZulu = (time) => {
+    var local = new Date(`${time} UTC`)
+    return local.toLocaleDateString()
+}
+
+const publishData = (forecast) => {
+    locationOutput.textContent = `Current weather in ${forecast.location.name}, ${forecast.location.region}`
+    timeOutput.textContent = `Time: ${forecast.location.localtime}`
+    tempOutput.textContent = `Temp: ${forecast.current.temperature} degrees F`
+    feelsLikeOutput.textContent = `Feels Like: ${forecast.current.feelslike} degrees F`
+    conditionsOutput.textContent = forecast.current.weather_descriptions.join(',')
+    windOutput.textContent = `Wind: ${forecast.current.wind_speed} MPH ${forecast.current.wind_dir}`
+    humidityOutput.textContent = `Humidity: ${forecast.current.humidity}`
 }
 
 weatherForm.addEventListener('submit', (e) => {
@@ -22,7 +37,12 @@ weatherForm.addEventListener('submit', (e) => {
     const url = encodeURI(`/weather?address=${address}`)
 
     locationOutput.textContent = `Fetching the weather for ${address}`
-    weatherOutput.textContent = ''
+    timeOutput.textContent = ''
+    tempOutput.textContent = ''
+    feelsLikeOutput.textContent = ''
+    conditionsOutput.textContent = ''
+    windOutput.textContent = ''
+    humidityOutput.textContent = ''
 
     fetch(url).then((response) => {
         response.json().then((data) => {
@@ -31,8 +51,7 @@ weatherForm.addEventListener('submit', (e) => {
                 console.log(data.error)
             } else {
                 console.log(data);
-                locationOutput.textContent = `Forecast for ${data.location.name}, ${data.location.region}`
-                weatherOutput.textContent = formatter(data)
+                publishData(data)
             }
         })
     })
