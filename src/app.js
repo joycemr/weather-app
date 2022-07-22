@@ -6,7 +6,6 @@ const geocode = require('./utils/geocode')
 
 
 const app = express()
-const port = process.env.PORT || 3000
 
 // static directory setup
 const root = path.join(__dirname, '..', 'public')
@@ -91,6 +90,8 @@ app.get('*', (req, res) => {
     })
 })
 
-app.listen(port, ()=> {
-    console.log(`Express is running on port ${port}`)
-})
+module.exports = app
+
+// app.listen(port, ()=> {
+//     console.log(`Express is running on port ${port}`)
+// })
